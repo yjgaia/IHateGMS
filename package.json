@@ -1,0 +1,10 @@
+{
+  "name": "fixyygmlh",
+  "version": "0.0.2",
+  "dependencies": {
+    "uppercase-core": "latest"
+  },
+  "bin": {
+    "fixyygmlh": "./fix_YYGML_h.js"
+  }
+}
