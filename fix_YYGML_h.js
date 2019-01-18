@@ -13,12 +13,10 @@ RUN(() => {
 		
 		console.log('총 파일 개수: ' + fileNames.length);
 		
-		EACH(fileNames, (fileName) => {
+		PARALLEL(fileNames, [
+		(fileName, done) => {
 			
-			READ_FILE({
-				path : fileName,
-				isSync : true
-			}, (content) => {
+			READ_FILE(fileName, (content) => {
 				content = content.toString();
 				
 				let startIndex = content.indexOf('<YYGML.h>');
@@ -26,14 +24,19 @@ RUN(() => {
 					
 					WRITE_FILE({
 						path : fileName,
-						isSync : true,
 						content : content.substring(0, startIndex) + '"YYGML.h"' + content.substring(startIndex + 9)
-					});
+					}, done);
+				}
+				
+				else {
+					done();
 				}
 			});
-		});
+		},
 		
-		console.log('완료');
+		() => {
+			console.log('완료');
+		}]);
 	});
 });
 
